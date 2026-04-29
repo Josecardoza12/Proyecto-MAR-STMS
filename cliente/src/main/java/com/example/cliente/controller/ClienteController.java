@@ -36,7 +36,26 @@ public class ClienteController {
         Cliente c = clienteService.saveCliente(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(c);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Cliente> actualizar(@PathVariable Long id, @RequestBody Cliente clienteActualizado){
+        try{
+            Cliente c = clienteService.obtenerPorId(id)
+                    .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 
+            c.setNombre(clienteActualizado.getNombre());
+            c.setRut(clienteActualizado.getRut());
+            c.setTelefono(clienteActualizado.getTelefono());
+            c.setDireccion(clienteActualizado.getDireccion());
+            c.setTipo_cliente(clienteActualizado.getTipo_cliente());
+
+
+            clienteService.saveCliente(c);
+            return ResponseEntity.ok(clienteActualizado);
+        }catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+
+    }
 
 
 
