@@ -30,19 +30,7 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    //Actualizar, si no encuentra lo pasa
-    public Cliente updateCliente(Long id, Cliente clienteActualizado){
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado con id: " + id));
 
-        cliente.setNombre(clienteActualizado.getNombre());
-        cliente.setRut(clienteActualizado.getRut());
-        cliente.setTelefono(clienteActualizado.getTelefono());
-        cliente.setDireccion(clienteActualizado.getDireccion());
-        cliente.setTipo_cliente(clienteActualizado.getTipo_cliente());
-
-        return clienteRepository.save(cliente);
-    }
 
     public  String deletedCliente(Long id){
          clienteRepository.deleteById(id);
