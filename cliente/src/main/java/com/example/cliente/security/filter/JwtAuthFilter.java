@@ -1,7 +1,7 @@
 package com.example.cliente.security.filter;
 
 
-import com.example.pedidos.security.jwt.JwtService;
+import com.example.cliente.security.jwt.JwtService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
