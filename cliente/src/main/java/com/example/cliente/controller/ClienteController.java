@@ -1,5 +1,6 @@
 package com.example.cliente.controller;
 
+import com.example.cliente.exception.ClienteNotFoundException;
 import com.example.cliente.model.Cliente;
 import com.example.cliente.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,20 +30,19 @@ public class ClienteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> obtenerPorId(@PathVariable Long id) {
-        return clienteService.obtenerPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Cliente cliente = clienteService.obtenerPorId(id);
+        return ResponseEntity.ok(cliente);
     }
+
     @PostMapping
     public ResponseEntity<Cliente> crear(@RequestBody Cliente cliente){
         Cliente c = clienteService.saveCliente(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(c);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> actualizar(@PathVariable Long id, @RequestBody Cliente clienteActualizado){
-        try{
-            Cliente c = clienteService.obtenerPorId(id)
-                    .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+    public ResponseEntity<Cliente> actualizar(@PathVariable Long id, @RequestBody Cliente clienteActualizado) {
+        try {
+            Cliente c = clienteService.obtenerPorId(id);
 
             c.setNombre(clienteActualizado.getNombre());
             c.setRut(clienteActualizado.getRut());
@@ -50,13 +50,11 @@ public class ClienteController {
             c.setDireccion(clienteActualizado.getDireccion());
             c.setTipo_cliente(clienteActualizado.getTipo_cliente());
 
-
             clienteService.saveCliente(c);
-            return ResponseEntity.ok(clienteActualizado);
-        }catch (Exception e){
+            return ResponseEntity.ok(c); // devuelve c, no clienteActualizado
+        } catch (ClienteNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
-
     }
 
 
