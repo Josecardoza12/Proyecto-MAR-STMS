@@ -30,7 +30,7 @@ public class EquipoService {
         return  equipoRepository.findByIdCliente(idCliente);
     }
 
-    //Agregar usuarios
+
     public Equipo saveEquipo(Equipo equipo){
         return equipoRepository.save(equipo);
     }

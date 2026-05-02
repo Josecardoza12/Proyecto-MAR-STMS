@@ -15,18 +15,14 @@ public class ClienteClient {
 
     private final WebClient webClient;
 
-    public Mono<Cliente> obtenerCliente(Long id) {
+    public Mono<Cliente> obtenerCliente(Long id, String token) {
         return webClient.get()
                 .uri("/{id}", id)
+                .header("Authorization", token)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, response ->
                         Mono.error(new ResponseStatusException(
-                                HttpStatus.NOT_FOUND, "Cliente no encontrado"))
-                )
-                .onStatus(HttpStatusCode::is5xxServerError, response ->
-                        Mono.error(new ResponseStatusException(
-                                HttpStatus.SERVICE_UNAVAILABLE, "Servicio de clientes no disponible"))
-                )
+                                HttpStatus.NOT_FOUND, "Cliente no encontrado")))
                 .bodyToMono(Cliente.class);
     }
 }

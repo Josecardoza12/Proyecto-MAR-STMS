@@ -16,22 +16,22 @@ public class Equipo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "idCliente")
+
     private Long idCliente;
 
-    @Column(nullable = false , name = "tipoEquipo")
+    @Column(nullable = false )
     private String tipoEquipo;
 
-    @Column(nullable = false, name = "marca")
+    @Column(nullable = false)
     private String marca;
 
-    @Column(nullable = false, name = "modelo")
+    @Column(nullable = false)
     private String modelo;
 
-    @Column(nullable = false, name = "numeroSerie")
+    @Column(nullable = false)
     private String numeroSerie;
 
-    @Column(name = "estadoIngreso", nullable = false)
+    @Column(nullable = false)
     private String estadoIngreso;
 
 

@@ -7,6 +7,7 @@ import com.example.equipo.service.EquipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -22,6 +23,7 @@ public class EquipoController {
     private  EquipoService equipoService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
     public ResponseEntity<List<Equipo>> listarEquipo(){
         List<Equipo> equipo = equipoService.ListarEquipo();
         if(equipo.isEmpty()){
@@ -31,13 +33,15 @@ public class EquipoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Equipo> obtenerPorId(@PathVariable Long id) {
+    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    public ResponseEntity<Equipo> obtenerEquipoPorId(@PathVariable Long id) {
         Equipo equipo = equipoService.obtenerPorId(id);
         return ResponseEntity.ok(equipo);
     }
 
     //buscar por cliente
     @GetMapping(params = "idCliente")
+    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
     public ResponseEntity<List<Equipo>> findByIdCliente(@RequestParam Long idCliente) {
         List<Equipo> equipos = equipoService.findByClienteId(idCliente);
         if (equipos.isEmpty()) {
@@ -47,20 +51,19 @@ public class EquipoController {
     }
 
     @PostMapping
-    public Mono<ResponseEntity<Equipo>> crearEquipo(@RequestBody Equipo equipo) {
-        System.out.println(equipo);
-        return clienteClient.obtenerCliente(equipo.getIdCliente())
-                .map(cliente -> {
-                    System.out.println(cliente);
-                    Equipo guardado = equipoService.saveEquipo(equipo);
-                    return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
-                });
+    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    public ResponseEntity<Equipo> crearEquipo(@RequestBody Equipo equipo, @RequestHeader("Authorization") String token) {
+        clienteClient.obtenerCliente(equipo.getIdCliente(), token).block();
+        Equipo guardado = equipoService.saveEquipo(equipo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Equipo> actualizar(@PathVariable Long id, @RequestBody Equipo equipoActualizado) {
+    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    public ResponseEntity<Equipo> actualizarEquipo(@PathVariable Long id, @RequestBody Equipo equipoActualizado,
+                                             @RequestHeader("Authorization") String token) {
         try {
-            clienteClient.obtenerCliente(equipoActualizado.getIdCliente()).block();
+            clienteClient.obtenerCliente(equipoActualizado.getIdCliente(), token).block();
             Equipo equipo = equipoService.obtenerPorId(id);
 
             equipo.setTipoEquipo(equipoActualizado.getTipoEquipo());
@@ -77,6 +80,7 @@ public class EquipoController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> eliminarEquipo(@PathVariable Long id){
         try{
             equipoService.deletedEquipo(id);
