@@ -4,5 +4,5 @@ CREATE TABLE cliente(
     rut VARCHAR(12) NOT NULL UNIQUE,
     telefono VARCHAR(15),
     direccion VARCHAR(100),
-    tipo_cliente VARCHAR(30)
+    tipo_Cliente VARCHAR(30)
 )
