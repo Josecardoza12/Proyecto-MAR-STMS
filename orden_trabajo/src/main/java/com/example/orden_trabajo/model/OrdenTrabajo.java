@@ -23,15 +23,15 @@ public class OrdenTrabajo {
     private Long idEquipo;
 
     @Column(nullable = false , unique = true)
-    private Integer numero_ot;
+    private Integer numeroOt;
 
     @Column(nullable = false)
     private String estado;
 
     @Column(nullable = false)
-    private Date fecha_ingreso;
+    private Date fechaIngreso;
 
-    private Date fecha_entrega;
+    private Date fechaEntrega;
 
     private Double diagnosticoMonto;
 

@@ -17,5 +17,5 @@ public class Cliente {
 
     private String direccion;
 
-    private String tipo_cliente;
+    private String tipoCliente;
 }

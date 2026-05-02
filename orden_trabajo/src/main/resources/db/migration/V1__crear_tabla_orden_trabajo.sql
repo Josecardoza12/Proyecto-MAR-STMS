@@ -5,13 +5,13 @@ CREATE TABLE orden_trabajo(
 
      idEquipo BIGINT,
 
-     numero_ot INT(50) NOT NULL UNIQUE,
+     numeroOt INT(50) NOT NULL UNIQUE,
 
      estado VARCHAR(50) NOT NULL,
 
-    fecha_ingreso DATE NOT NULL,
+    fechaIngreso DATE NOT NULL,
 
-    fecha_entrega DATE,
+    fechaEntrega DATE,
 
      diagnosticoMonto DOUBLE(10,2) ,
 
@@ -21,6 +21,6 @@ CREATE TABLE orden_trabajo(
 
     totalCobrado DOUBLE (10,2),
 
-    estadoPago VARCHAR(20) NOT NULL;
+    estadoPago VARCHAR(20) NOT NULL
 
 )
