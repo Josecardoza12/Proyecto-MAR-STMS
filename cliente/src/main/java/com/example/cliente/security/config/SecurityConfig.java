@@ -1,6 +1,6 @@
 package com.example.cliente.security.config;
 
-import com.example.pedidos.security.filter.JwtAuthFilter;
+import com.example.cliente.security.filter.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;

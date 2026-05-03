@@ -1,5 +1,6 @@
 package com.example.cliente.service;
 
+import com.example.cliente.exception.ClienteNotFoundException;
 import com.example.cliente.model.Cliente;
 import com.example.cliente.repository.ClienteRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,9 +22,9 @@ public class ClienteService {
     }
 
     //OBTENER POR ID
-    public Optional<Cliente> obtenerPorId(Long id){
-        return clienteRepository.findById(id);
-    }
+    public Cliente obtenerPorId(Long id){
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNotFoundException(id));}
 
     //Agregar usuarios
     public Cliente saveCliente(Cliente cliente){
