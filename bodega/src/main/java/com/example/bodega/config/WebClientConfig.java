@@ -8,13 +8,13 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class WebClientConfig {
 
-    @Value("${finanzas.url}")
-    private String finanzasUrl;
+    @Value("${pago.url}")
+    private String pagoUrl;
 
     @Bean
     public RestClient restClient() {
         return RestClient.builder()
-                .baseUrl(finanzasUrl)
+                .baseUrl(pagoUrl)
                 .build();
     }
 }
