@@ -1,4 +1,4 @@
-package com.example.pedidos.security.jwt;
+package com.example.reparacion.security.jwt;
 
 import javax.crypto.SecretKey;
 import io.jsonwebtoken.security.Keys;
