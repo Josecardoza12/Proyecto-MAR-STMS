@@ -61,7 +61,7 @@ public class MovimientoCajaController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO')")
     public ResponseEntity<MovimientoCaja> registrar(@Valid @RequestBody MovimientoCaja movimiento) {
         log.info("POST /api/v1/movimientos - Registrando movimiento tipo {}", movimiento.getTipo());
         MovimientoCaja m = movimientoCajaService.registrar(movimiento);

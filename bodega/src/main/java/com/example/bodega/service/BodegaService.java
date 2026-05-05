@@ -1,5 +1,6 @@
 package com.example.bodega.service;
 
+import com.example.bodega.client.FinanzasClient;
 import com.example.bodega.exception.BodegaNotFoundException;
 import com.example.bodega.model.Bodega;
 import com.example.bodega.repository.BodegaRepository;
@@ -18,6 +19,9 @@ public class BodegaService {
 
     @Autowired
     private BodegaRepository bodegaRepository;
+
+    @Autowired
+    private FinanzasClient finanzasClient;
 
     private static final int DIAS_GRATIS = 15;
     private static final double MONTO_DIARIO = 1000.0;
@@ -52,16 +56,20 @@ public class BodegaService {
         return saved;
     }
 
-    public Bodega actualizar(Long id) {
+    public Bodega actualizar(Long id, String token) {
         log.info("Actualizando bodega con id {}", id);
         Bodega bodega = obtenerPorId(id);
         long dias = ChronoUnit.DAYS.between(bodega.getFechaListo(), LocalDate.now());
         bodega.setDiasEnBodega((int) dias);
         if (dias > DIAS_GRATIS) {
+            boolean yaTeniaCobro = "con_cobro".equals(bodega.getEstadoCobro());
             bodega.setEstadoCobro("con_cobro");
             long diasCobrados = dias - DIAS_GRATIS;
             bodega.setMontoBodegaje(diasCobrados * MONTO_DIARIO);
             log.warn("Equipo en bodega {} lleva {} días - Monto: ${}", id, dias, bodega.getMontoBodegaje());
+            if (!yaTeniaCobro) {
+                finanzasClient.registrarMovimientoBodega(token, bodega.getOtId(), bodega.getMontoBodegaje());
+            }
         } else {
             log.info("Equipo en bodega {} lleva {} días - Sin cobro", id, dias);
         }

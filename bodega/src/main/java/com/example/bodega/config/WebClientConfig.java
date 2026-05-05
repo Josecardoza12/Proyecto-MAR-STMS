@@ -1,5 +1,6 @@
 package com.example.bodega.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
@@ -7,8 +8,13 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class WebClientConfig {
 
+    @Value("${finanzas.url}")
+    private String finanzasUrl;
+
     @Bean
     public RestClient restClient() {
-        return RestClient.create();
+        return RestClient.builder()
+                .baseUrl(finanzasUrl)
+                .build();
     }
 }
