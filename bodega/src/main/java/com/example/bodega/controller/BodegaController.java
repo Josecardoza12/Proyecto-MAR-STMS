@@ -60,10 +60,12 @@ public class BodegaController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Bodega> actualizar(@PathVariable Long id) {
+    public ResponseEntity<Bodega> actualizar(
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String token) {
         log.info("PUT /api/v1/bodega/{} - Actualizando días y cobro", id);
         try {
-            Bodega b = bodegaService.actualizar(id);
+            Bodega b = bodegaService.actualizar(id, token);
             log.info("Bodega {} actualizada - Días: {}, Monto: {}", id, b.getDiasEnBodega(), b.getMontoBodegaje());
             return ResponseEntity.ok(b);
         } catch (BodegaNotFoundException e) {
