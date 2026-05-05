@@ -1,6 +1,8 @@
 package com.example.finanzas.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,8 @@ public class GastoOperacional {
 
     private String medioPago;
 
+    @NotNull(message = "El total es obligatorio")
+    @Positive(message = "El total debe ser mayor a 0")
     @Column(nullable = false)
     private Double total;
 

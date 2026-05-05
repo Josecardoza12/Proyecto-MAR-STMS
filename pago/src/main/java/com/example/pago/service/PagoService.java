@@ -1,5 +1,6 @@
 package com.example.pago.service;
 
+import com.example.pago.cliente.FinanzasClient;
 import com.example.pago.exception.PagoNotFoundException;
 import com.example.pago.model.Pago;
 import com.example.pago.repository.PagoRepository;
@@ -16,6 +17,9 @@ public class PagoService {
 
     @Autowired
     private PagoRepository pagoRepository;
+
+    @Autowired
+    private FinanzasClient finanzasClient;
 
     public List<Pago> listarTodos() {
         log.info("Listando todos los pagos");
@@ -36,12 +40,21 @@ public class PagoService {
         return pagoRepository.findByOtId(otId);
     }
 
-    public Pago registrar(Pago pago) {
+    public Pago registrar(Pago pago, String token) {
         log.info("Registrando pago para OT {}", pago.getOtId());
         pago.setFecha(LocalDate.now());
         pago.setEstado("pagado");
         Pago saved = pagoRepository.save(pago);
         log.info("Pago registrado con id {}", saved.getId());
+
+        // Notificar a finanzas
+        finanzasClient.registrarMovimiento(
+                token,
+                saved.getOtId(),
+                saved.getMonto(),
+                "Pago OT #" + saved.getOtId() + " - " + saved.getFormaPago()
+        );
+
         return saved;
     }
 

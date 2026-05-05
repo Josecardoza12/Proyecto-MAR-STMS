@@ -1,6 +1,7 @@
 package com.example.bodega.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class Bodega {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "El ID de la OT es obligatorio")
     @Column(unique = true, nullable = false)
     private Long otId;
 
@@ -25,7 +27,6 @@ public class Bodega {
 
     private Integer diasEnBodega;
 
-    // "sin_cobro" o "con_cobro"
     private String estadoCobro;
 
     private Double montoBodegaje;

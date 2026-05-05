@@ -3,6 +3,7 @@ package com.example.bodega.controller;
 import com.example.bodega.exception.BodegaNotFoundException;
 import com.example.bodega.model.Bodega;
 import com.example.bodega.service.BodegaService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class BodegaController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO')")
-    public ResponseEntity<Bodega> registrar(@RequestBody Bodega bodega) {
+    public ResponseEntity<Bodega> registrar(@Valid @RequestBody Bodega bodega) {
         log.info("POST /api/v1/bodega - Registrando equipo en bodega para OT {}", bodega.getOtId());
         Bodega b = bodegaService.registrar(bodega);
         log.info("Equipo registrado en bodega con id {}", b.getId());
@@ -65,6 +66,20 @@ public class BodegaController {
             Bodega b = bodegaService.actualizar(id);
             log.info("Bodega {} actualizada - Días: {}, Monto: {}", id, b.getDiasEnBodega(), b.getMontoBodegaje());
             return ResponseEntity.ok(b);
+        } catch (BodegaNotFoundException e) {
+            log.error("Bodega con id {} no encontrada", id);
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> eliminar(@PathVariable Long id) {
+        log.info("DELETE /api/v1/bodega/{} - Eliminando registro de bodega", id);
+        try {
+            bodegaService.eliminar(id);
+            log.info("Registro de bodega {} eliminado correctamente", id);
+            return ResponseEntity.noContent().build();
         } catch (BodegaNotFoundException e) {
             log.error("Bodega con id {} no encontrada", id);
             return ResponseEntity.notFound().build();

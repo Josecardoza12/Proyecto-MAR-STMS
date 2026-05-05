@@ -55,10 +55,8 @@ public class BodegaService {
     public Bodega actualizar(Long id) {
         log.info("Actualizando bodega con id {}", id);
         Bodega bodega = obtenerPorId(id);
-
         long dias = ChronoUnit.DAYS.between(bodega.getFechaListo(), LocalDate.now());
         bodega.setDiasEnBodega((int) dias);
-
         if (dias > DIAS_GRATIS) {
             bodega.setEstadoCobro("con_cobro");
             long diasCobrados = dias - DIAS_GRATIS;
@@ -67,7 +65,14 @@ public class BodegaService {
         } else {
             log.info("Equipo en bodega {} lleva {} días - Sin cobro", id, dias);
         }
-
         return bodegaRepository.save(bodega);
+    }
+
+    public String eliminar(Long id) {
+        log.info("Eliminando registro de bodega con id {}", id);
+        obtenerPorId(id);
+        bodegaRepository.deleteById(id);
+        log.info("Registro de bodega {} eliminado correctamente", id);
+        return "Bodega " + id + " eliminada";
     }
 }
