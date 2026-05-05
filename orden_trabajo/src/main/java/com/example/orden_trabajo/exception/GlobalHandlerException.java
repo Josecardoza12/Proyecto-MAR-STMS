@@ -21,10 +21,10 @@ public class GlobalHandlerException {
 
     }
 
-    @ExceptionHandler(OrderTrabajoNotFoundException.class)
+    @ExceptionHandler(OrdenTrabajoNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
 
-    public ErrorResponse handleNotFound(OrderTrabajoNotFoundException ex){
+    public ErrorResponse handleNotFound(OrdenTrabajoNotFoundException ex){
         HashMap<String , String > errores = new HashMap<>();
         errores.put("id ",ex.getMessage());
         return new ErrorResponse(404,"ID no encontrado", errores);

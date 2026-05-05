@@ -8,10 +8,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
     @Bean
-    @LoadBalanced
+
     public WebClient webClient(){
         return WebClient.builder()
-                .baseUrl("http://cliente/api/v1/clientes")
+                .baseUrl("http://localhost:8082/api/v1/clientes")
                 .build();
     }
 }
