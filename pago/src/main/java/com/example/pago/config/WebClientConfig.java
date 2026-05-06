@@ -8,23 +8,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
-    @Value("${finanzas.url}")
-    private String finanzasUrl;
+    @Bean("FinanzasWebClient")
 
-    @Value("${ot.url}")
-    private String otUrl;
-
-    @Bean
-    public WebClient finanzasWebClient() {
+    public WebClient clienteWebClient() {
         return WebClient.builder()
-                .baseUrl(finanzasUrl)
+                .baseUrl("http://localhost:8087/api/v1/finanzas")
                 .build();
     }
 
-    @Bean("OtWebClient")
-    public WebClient otWebClient() {
+    @Bean("OrdenTrabajoWebClient")
+
+    public WebClient webClient(){
         return WebClient.builder()
-                .baseUrl(otUrl + "/api/v1/ot")
+                .baseUrl("http://localhost:8084/api/v1/ot")
                 .build();
     }
 }
+

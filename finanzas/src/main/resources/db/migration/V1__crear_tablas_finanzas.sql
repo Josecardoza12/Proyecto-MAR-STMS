@@ -1,12 +1,4 @@
-CREATE TABLE movimiento_caja (
-    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-    fecha       DATE,
-    tipo        VARCHAR(20) NOT NULL,
-    concepto    VARCHAR(255),
-    monto       DOUBLE NOT NULL,
-    origen      VARCHAR(50),
-    ot_id       BIGINT
-);
+
 
 CREATE TABLE gasto_operacional (
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,

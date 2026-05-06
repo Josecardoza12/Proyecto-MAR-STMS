@@ -1,7 +1,9 @@
 package com.example.bodega.controller;
 
+import com.example.bodega.client.OrdenTrabajoClient;
 import com.example.bodega.exception.BodegaNotFoundException;
 import com.example.bodega.model.Bodega;
+import com.example.bodega.model.Orden_Trabajo;
 import com.example.bodega.service.BodegaService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,8 @@ public class BodegaController {
 
     @Autowired
     private BodegaService bodegaService;
+    @Autowired
+    private OrdenTrabajoClient ordenTrabajoClient;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO')")
@@ -51,8 +55,10 @@ public class BodegaController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO')")
-    public ResponseEntity<Bodega> registrar(@Valid @RequestBody Bodega bodega) {
+    public ResponseEntity<Bodega> registrar(@Valid @RequestBody Bodega bodega, @RequestHeader("Authorization") String token) {
         log.info("POST /api/v1/bodega - Registrando equipo en bodega para OT {}", bodega.getOtId());
+        ordenTrabajoClient.obtenerOt(bodega.getOtId(),token).block();
+
         Bodega b = bodegaService.registrar(bodega);
         log.info("Equipo registrado en bodega con id {}", b.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(b);
@@ -60,18 +66,11 @@ public class BodegaController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Bodega> actualizar(
-            @PathVariable Long id,
-            @RequestHeader("Authorization") String token) {
+    public ResponseEntity<Bodega> actualizar(@PathVariable Long id) {
         log.info("PUT /api/v1/bodega/{} - Actualizando días y cobro", id);
-        try {
-            Bodega b = bodegaService.actualizar(id, token);
-            log.info("Bodega {} actualizada - Días: {}, Monto: {}", id, b.getDiasEnBodega(), b.getMontoBodegaje());
-            return ResponseEntity.ok(b);
-        } catch (BodegaNotFoundException e) {
-            log.error("Bodega con id {} no encontrada", id);
-            return ResponseEntity.notFound().build();
-        }
+        Bodega b = bodegaService.actualizar(id);
+        log.info("Bodega {} actualizada - Días: {}, Monto: {}", id, b.getDiasEnBodega(), b.getMontoBodegaje());
+        return ResponseEntity.ok(b);
     }
 
     @DeleteMapping("/{id}")
