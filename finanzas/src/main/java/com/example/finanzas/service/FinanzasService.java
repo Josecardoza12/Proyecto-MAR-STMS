@@ -1,6 +1,6 @@
 package com.example.finanzas.service;
 
-import com.example.finanzas.exception.GastoOperacionalNotFoundException;
+import com.example.finanzas.exception.FinanzasNotFoundException;
 import com.example.finanzas.model.Finanzas;
 import com.example.finanzas.repository.FinanzasRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class FinanzasService {
         return finanzasRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Gasto operacional con id {} no encontrado", id);
-                    return new GastoOperacionalNotFoundException(id);
+                    return new FinanzasNotFoundException(id);
                 });
     }
 

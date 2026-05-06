@@ -1,6 +1,6 @@
 package com.example.finanzas.controller;
 
-import com.example.finanzas.exception.GastoOperacionalNotFoundException;
+import com.example.finanzas.exception.FinanzasNotFoundException;
 import com.example.finanzas.model.Finanzas;
 import com.example.finanzas.service.FinanzasService;
 import jakarta.validation.Valid;
@@ -35,7 +35,7 @@ public class FinanzasController {
     public ResponseEntity<Finanzas> obtenerPorId(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(finanzasService.obtenerPorId(id));
-        } catch (GastoOperacionalNotFoundException e) {
+        } catch (FinanzasNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -70,7 +70,7 @@ public class FinanzasController {
         try {
             finanzasService.eliminar(id);
             return ResponseEntity.noContent().build();
-        } catch (GastoOperacionalNotFoundException e) {
+        } catch (FinanzasNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }

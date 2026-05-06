@@ -10,19 +10,12 @@ import java.util.HashMap;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(MovimientoCajaNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleMovimientoNotFound(MovimientoCajaNotFoundException ex) {
-        HashMap<String, String> errores = new HashMap<>();
-        errores.put("id", ex.getMessage());
-        return new ErrorResponse(404, "Movimiento de caja no encontrado", errores);
-    }
 
-    @ExceptionHandler(GastoOperacionalNotFoundException.class)
+    @ExceptionHandler(FinanzasNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleGastoNotFound(GastoOperacionalNotFoundException ex) {
+    public ErrorResponse handleGastoNotFound(FinanzasNotFoundException ex) {
         HashMap<String, String> errores = new HashMap<>();
         errores.put("id", ex.getMessage());
-        return new ErrorResponse(404, "Gasto operacional no encontrado", errores);
+        return new ErrorResponse(404, "finanzas no encontrado", errores);
     }
 }
