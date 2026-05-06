@@ -24,7 +24,7 @@ public class FinanzasClient {
     @Qualifier("FinanzasClient")
     private WebClient webClient;
 
-    public Mono<Finanzas> obtenerFinanza(Long id, String token) {
+    public Mono<Finanzas> obtenerFinanza    (Long id, String token) {
         return webClient.get()
                 .uri("/{id}", id)
                 .header("Authorization", token)
