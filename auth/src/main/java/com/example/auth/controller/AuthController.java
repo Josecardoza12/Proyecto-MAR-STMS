@@ -32,7 +32,7 @@ public class AuthController {
         try {
             String username = body.get("username");
             String password = body.get("password");
-            String role = body.getOrDefault("role", "USER"); // Por defecto USER
+            String role = body.getOrDefault("role", "CLIENTE"); // Por defecto USER
 
             if (username == null || password == null || username.isBlank() || password.isBlank()) {
                 return ResponseEntity.badRequest()
@@ -40,8 +40,11 @@ public class AuthController {
             }
 
             // Validar rol
-            if (!role.equals("USER") && !role.equals("ADMIN")) {
-                role = "USER";
+            if (!role.equals("CLIENTE") &&
+                    !role.equals("TECNICO") &&
+                    !role.equals("ADMIN")) {
+
+                role = "CLIENTE";
             }
 
             userService.register(username, password, role);
