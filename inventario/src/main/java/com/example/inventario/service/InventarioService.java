@@ -1,7 +1,7 @@
 package com.example.inventario.service;
 
 import com.example.inventario.model.Repuesto;
-import com.example.inventario.repository.RepuestoRepository;
+import com.example.inventario.repository.InventarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.Optional;
 @Service
 public class InventarioService {
 
-    private final RepuestoRepository repository;
+    private final InventarioRepository repository;
 
-    public InventarioService(RepuestoRepository repository) {
+    public InventarioService(InventarioRepository repository) {
         this.repository = repository;
     }
 
