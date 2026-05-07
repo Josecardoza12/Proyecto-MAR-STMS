@@ -65,7 +65,7 @@ public class BodegaController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO')")
     public ResponseEntity<Bodega> actualizar(@PathVariable Long id) {
         log.info("PUT /api/v1/bodega/{} - Actualizando días y cobro", id);
         Bodega b = bodegaService.actualizar(id);

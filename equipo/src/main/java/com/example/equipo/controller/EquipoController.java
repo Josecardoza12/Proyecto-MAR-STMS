@@ -25,7 +25,7 @@ public class EquipoController {
     private  EquipoService equipoService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO', 'CLIENTE')")
     public ResponseEntity<List<Equipo>> listarEquipos(){
         log.info("Solicitud GET /api/v1/equipos");
         List<Equipo> equipo = equipoService.listarEquipos();
@@ -38,7 +38,7 @@ public class EquipoController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO', 'CLIENTE')")
     public ResponseEntity<Equipo> obtenerEquipoPorId(@PathVariable Long id) {
         log.info("Solicitud GET /api/v1/equipos/{}", id);
         Equipo equipo = equipoService.obtenerPorId(id);
@@ -48,7 +48,7 @@ public class EquipoController {
 
 
     @GetMapping(params = "idCliente")
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO', 'CLIENTE')")
     public ResponseEntity<List<Equipo>> findByIdCliente(@RequestParam Long idCliente) {
         log.info("Solicitud GET /api/v1/equipos?idCliente={}", idCliente);
         List<Equipo> equipos = equipoService.findByClienteId(idCliente);
@@ -61,7 +61,7 @@ public class EquipoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO')")
     public ResponseEntity<Equipo> crearEquipo(@Valid @RequestBody Equipo equipo, @RequestHeader("Authorization") String token) {
         log.info("Solicitud POST /api/v1/equipos - creando equipo para cliente {}", equipo.getIdCliente());
         clienteClient.obtenerCliente(equipo.getIdCliente(), token).block();
@@ -76,7 +76,7 @@ public class EquipoController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO')")
     public ResponseEntity<Equipo> actualizarEquipo(@PathVariable Long id, @Valid @RequestBody Equipo equipoActualizado,
                                              @RequestHeader("Authorization") String token) {
         log.info("Solicitud PUT /api/v1/equipos/{}", id);

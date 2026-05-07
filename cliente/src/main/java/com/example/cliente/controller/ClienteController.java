@@ -22,7 +22,7 @@ public class ClienteController {
 
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE' ,'TECNICO', 'ADMIN')")
     public ResponseEntity<List<Cliente>> listarClientes(){
         log.info("Solicitud GET /api/v1/clientes");
         List<Cliente> clientes = clienteService.listarClientes();
@@ -35,7 +35,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE' ,'TECNICO', 'ADMIN')")
     public ResponseEntity<Cliente> obtenerPorId(@PathVariable Long id) {
         log.info("Solicitud GET /api/v1/clientes/{}", id);
         Cliente cliente = clienteService.obtenerPorId(id);
@@ -44,7 +44,7 @@ public class ClienteController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
     public ResponseEntity<Cliente> crear(@Valid @RequestBody Cliente cliente){
         log.info("Solicitud POST /api/v1/clientes - Creando cliente con rut {}", cliente.getRut());
         Cliente c = clienteService.saveCliente(cliente);
@@ -56,7 +56,7 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(c);
     }
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
     public ResponseEntity<Cliente> actualizar(@PathVariable Long id, @Valid @RequestBody Cliente clienteActualizado) {
         log.info("Solicitud PUT /api/v1/clientes/{}", id);
         try {
