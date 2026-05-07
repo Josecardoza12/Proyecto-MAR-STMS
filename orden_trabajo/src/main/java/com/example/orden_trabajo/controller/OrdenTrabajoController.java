@@ -29,7 +29,7 @@ public class OrdenTrabajoController {
     private OrdenTrabajoService ordenTrabajoService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE' ,'TECNICO', 'ADMIN')")
     public ResponseEntity<List<OrdenTrabajo>> ListarOt() {
         log.info("Solicitud GET /api/v1/ot");
         List<OrdenTrabajo> ot = ordenTrabajoService.listarOt();
@@ -42,7 +42,7 @@ public class OrdenTrabajoController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE' ,'TECNICO', 'ADMIN')")
     public ResponseEntity<OrdenTrabajo> obtenerOtPorId(@PathVariable Long id) {
         log.info("Solicitud GET /api/v1/ot/{}", id);
         OrdenTrabajo ot = ordenTrabajoService.obtenerOtPorId(id);
@@ -51,7 +51,7 @@ public class OrdenTrabajoController {
     }
 
     @GetMapping(params = "idCliente")
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE' ,'TECNICO', 'ADMIN')")
     public ResponseEntity<List<OrdenTrabajo>> findByIdCliente(@RequestParam Long idCliente) {
         log.info("Solicitud GET /api/v1/ot?idCliente={}", idCliente);
         List<OrdenTrabajo> clienteOt = ordenTrabajoService.findByClienteId(idCliente);
@@ -64,7 +64,7 @@ public class OrdenTrabajoController {
     }
 
     @GetMapping(params = "idEquipo")
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE' ,'TECNICO', 'ADMIN')")
     public ResponseEntity<List<OrdenTrabajo>> findByIdEquipo(@RequestParam Long idEquipo) {
         log.info("Solicitud GET /api/v1/ot?idEquipo={}", idEquipo);
         List<OrdenTrabajo> equipoOt = ordenTrabajoService.findByIdEquipo(idEquipo);
@@ -77,7 +77,7 @@ public class OrdenTrabajoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
     public ResponseEntity<OrdenTrabajo> crearOt(@Valid @RequestBody OrdenTrabajo ot,
                                                 @RequestHeader("Authorization") String token) {
         log.info("Solicitud POST /api/v1/ot - creando OT para cliente {} y equipo {}",
@@ -99,7 +99,7 @@ public class OrdenTrabajoController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER' , 'ADMIN')")
+    @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
     public ResponseEntity<OrdenTrabajo> actualizarOt(@PathVariable Long id, @Valid @RequestBody OrdenTrabajo otActualizada,
                                                      @RequestHeader("Authorization") String token) {
         log.info("Solicitud PUT /api/v1/ot/{}", id);
