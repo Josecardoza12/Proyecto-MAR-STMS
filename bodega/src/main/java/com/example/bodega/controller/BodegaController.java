@@ -54,11 +54,10 @@ public class BodegaController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO')")
+    @PreAuthorize("hasAnyRole('ADMIN','TECNICO')")
     public ResponseEntity<Bodega> registrar(@Valid @RequestBody Bodega bodega, @RequestHeader("Authorization") String token) {
         log.info("POST /api/v1/bodega - Registrando equipo en bodega para OT {}", bodega.getOtId());
         ordenTrabajoClient.obtenerOt(bodega.getOtId(),token).block();
-
         Bodega b = bodegaService.registrar(bodega);
         log.info("Equipo registrado en bodega con id {}", b.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(b);
