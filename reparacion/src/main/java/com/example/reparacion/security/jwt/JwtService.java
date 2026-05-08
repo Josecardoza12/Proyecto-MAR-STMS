@@ -1,13 +1,13 @@
 package com.example.reparacion.security.jwt;
 
-import javax.crypto.SecretKey;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Service
@@ -56,6 +56,7 @@ public class JwtService {
 
             return claims.getExpiration() != null &&
                     claims.getExpiration().after(new Date());
+
         } catch (JwtException e) {
             return false;
         }

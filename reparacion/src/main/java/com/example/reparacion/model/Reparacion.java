@@ -17,16 +17,16 @@ import java.time.LocalDate;
 public class Reparacion {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reparacion_id")
-    @NotNull(message = "El ID de reparación es obligatorio")
     private Long reparacionId;
 
-    @Column(name = "ot_id", nullable = false, unique = true)
     @NotNull(message = "El ID de la OT es obligatorio")
+    @Column(name = "ot_id", nullable = false)
     private Long otId;
 
-    @Column(name = "usuario_id", nullable = false)
     @NotNull(message = "El ID del usuario es obligatorio")
+    @Column(name = "usuario_id", nullable = false)
     private Long usuarioId;
 
     @Column(name = "fecha_inicio")
@@ -35,11 +35,16 @@ public class Reparacion {
     @Column(name = "fecha_termino")
     private LocalDate fechaTermino;
 
-    @Column(name = "detalle_trabajo")
     @NotBlank(message = "El detalle del trabajo no puede estar vacío")
+    @Column(name = "detalle_trabajo", nullable = false)
     private String detalleTrabajo;
 
-    @Column(name = "estado")
-    @NotBlank(message = "El estado es obligatorio")
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado", nullable = false)
+    private EstadoReparacion estado;
+
+    public enum EstadoReparacion {
+        EN_REPARACION,
+        TERMINADA
+    }
 }
