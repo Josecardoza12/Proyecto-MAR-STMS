@@ -21,8 +21,8 @@ spring:
           predicates:
             - Path=/api/v1/equipos/**
 
-        - id: orden-trabajo
-          uri: lb://orden-trabajo
+        - id: orden_trabajo
+          uri: lb://orden_trabajo
           predicates:
             - Path=/api/v1/ot/**
 
