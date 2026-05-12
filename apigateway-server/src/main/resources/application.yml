@@ -26,11 +26,31 @@ spring:
           predicates:
             - Path=/api/v1/ot/**
 
+        - id: diagnostico
+          uri: lb://DIAGNOSTICO
+          predicates:
+            - Path=/api/v1/diagnosticos/**
+        - id: reparacion
+          uri: lb://REPARACION
+          predicates:
+            - Path=/api/v1/reparaciones/**
+        - id: inventario
+          uri: lb://INVENTARIO
+          predicates:
+            - Path=/api/v1/inventarios/**
+
         - id: bodega
           uri: lb://BODEGA
           predicates:
             - Path=/api/v1/bodega/**
-
+        - id: pago
+          uri: lb://PAGO
+          predicates:
+            - Path=/api/v1/pagos/**
+        - id: finanzas
+          uri: lb://FINANZAS
+          predicates:
+            - Path=/api/v1/finanzas/**
 
 server:
   port: 8080
