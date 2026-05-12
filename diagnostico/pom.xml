@@ -13,7 +13,7 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>diagnostico</artifactId>
+    <artifactId>equipo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
@@ -36,17 +36,17 @@
 
     <dependencies>
 
-        <!-- WEB MVC -->
+        <!-- WEB (MVC) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- WEBFLUX (WebClient) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
+
 
         <!-- JPA -->
         <dependency>
@@ -116,7 +116,7 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!-- TEST -->
+        <!-- TESTS CORRECTOS -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
