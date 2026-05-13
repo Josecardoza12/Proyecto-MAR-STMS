@@ -43,18 +43,10 @@ public class BodegaService {
 
     public Bodega registrar(Bodega bodega) {
         log.info("Registrando equipo en bodega para OT {}", bodega.getOtId());
-        if (bodega.getFechaListo() == null) {
-            bodega.setFechaListo(LocalDate.now());
-        }
-        if (bodega.getDiasEnBodega() == null) {
-            bodega.setDiasEnBodega(0);
-        }
-        if (bodega.getEstadoCobro() == null) {
-            bodega.setEstadoCobro("sin_cobro");
-        }
-        if (bodega.getMontoBodegaje() == null) {
-            bodega.setMontoBodegaje(0.0);
-        }
+        bodega.setFechaListo(LocalDate.now());
+        bodega.setDiasEnBodega(0);
+        bodega.setEstadoCobro("sin_cobro");
+        bodega.setMontoBodegaje(0.0);
         Bodega saved = bodegaRepository.save(bodega);
         log.info("Equipo registrado en bodega con id {}", saved.getId());
         return saved;
