@@ -7,10 +7,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
-    @Bean
+    @Bean("OrdenTrabajoWebClient")
     public WebClient ordenTrabajoWebClient() {
         return WebClient.builder()
-                .baseUrl("http://ordentrabajo-service")
+                .baseUrl("http://ordenTrabajo/api/v1/ot")
                 .build();
     }
 }
+
+

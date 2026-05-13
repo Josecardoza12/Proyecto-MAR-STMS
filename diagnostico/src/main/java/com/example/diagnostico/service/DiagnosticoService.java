@@ -39,10 +39,7 @@ public class DiagnosticoService {
 
         log.info("Validando existencia de OT {} en orden_trabajo", diagnostico.getOtId());
 
-        if (!otClient.existeOt(diagnostico.getOtId(), token)) {
-            log.error("No se puede crear diagnóstico: OT {} no existe", diagnostico.getOtId());
-            throw new RuntimeException("La OT no existe");
-        }
+
 
         log.info("Guardando diagnóstico {}", diagnostico);
         return repository.save(diagnostico);
@@ -54,10 +51,6 @@ public class DiagnosticoService {
 
         Diagnostico existing = findById(id);
 
-        if (!otClient.existeOt(diagnostico.getOtId(), token)) {
-            log.error("No se puede actualizar diagnóstico: OT {} no existe", diagnostico.getOtId());
-            throw new RuntimeException("La OT no existe");
-        }
 
         existing.setDescripcion(diagnostico.getDescripcion());
         existing.setCausaProbable(diagnostico.getCausaProbable());

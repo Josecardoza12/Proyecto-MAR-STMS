@@ -11,18 +11,11 @@ import java.time.LocalDate;
 public class Finanzas {
 
     private Long id;
-
     private LocalDate fecha;
-
     private String categoria;
-
     private String detalle;
-
     private String proveedor;
-
     private String medioPago;
-
     private Double total;
-
     private Long otId;
 }

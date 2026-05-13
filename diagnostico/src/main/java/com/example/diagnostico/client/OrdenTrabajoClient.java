@@ -1,34 +1,33 @@
 package com.example.diagnostico.client;
 
+import com.example.diagnostico.model.Ot;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ResponseStatusException;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@Service
 public class OrdenTrabajoClient {
 
-    private final WebClient.Builder webClientBuilder;
+    private    final WebClient webClient;
 
-    public boolean existeOt(Long otId, String token) {
 
-        try {
-            webClientBuilder.build()
-                    .get()
-                    .uri("http://orden_trabajo/api/v1/ot/" + otId)
-                    .header("Authorization", token)
-                    .retrieve()
-                    .bodyToMono(Object.class)
-                    .block();
-
-            log.info("OT {} existe", otId);
-            return true;
-
-        } catch (Exception e) {
-            log.warn("OT {} NO existe o error al consultar: {}", otId, e.getMessage());
-            return false;
-        }
+    public Mono<Ot> obtenerEquipo(Long id, String token) {
+        return webClient.get()
+                .uri("/{id}", id)
+                .header("Authorization", token)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, response ->
+                        Mono.error(new ResponseStatusException(
+                                HttpStatus.NOT_FOUND, "Equipo no encontrado")))
+                .bodyToMono(Ot.class);
     }
 }

@@ -1,13 +1,13 @@
-package com.example.pago.model;
+package com.example.reparacion.model;
 
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class Orden_Trabajo {
-    private Long id;
+public class Ot {
 
+    private Long id;
     private Long idCliente;
     private Long idEquipo;
     private Integer numeroOt;
@@ -19,4 +19,5 @@ public class Orden_Trabajo {
     private Double manoObraMonto;
     private Double totalCobrado;
     private String estadoPago;
+
 }

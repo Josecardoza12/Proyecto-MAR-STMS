@@ -3,38 +3,62 @@ package com.example.reparacion.controller;
 import com.example.reparacion.model.Reparacion;
 import com.example.reparacion.service.ReparacionService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/reparaciones")
+@RequestMapping("api/v1/reparaciones")
+@RequiredArgsConstructor
 public class ReparacionController {
 
     private final ReparacionService service;
 
-    public ReparacionController(ReparacionService service) {
-        this.service = service;
+    @PreAuthorize("hasAnyRole('CLIENTE' ,'TECNICO', 'ADMIN')")
+    @GetMapping
+    public List<Reparacion> getAll() {
+        log.info("GET api/v1/reparaciones");
+        return service.findAll();
     }
 
+    @PreAuthorize("hasAnyRole('CLIENTE' ,'TECNICO', 'ADMIN')")
+    @GetMapping("/{id}")
+    public Reparacion getById(@PathVariable Long id) {
+        log.info("GET api/v1/reparaciones/{}", id);
+        return service.findById(id);
+    }
+
+    @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
     @PostMapping
-    public ResponseEntity<Reparacion> iniciar(@Valid @RequestBody Reparacion r) {
-        log.info("POST /reparaciones → iniciar reparación para OT {}", r.getOtId());
-        Reparacion creada = service.iniciar(r);
-        return ResponseEntity.status(201).body(creada);
+    public Reparacion create(
+            @Valid @RequestBody Reparacion reparacion,
+            @RequestHeader("Authorization") String token) {
+
+        log.info("POST api/v1/reparaciones");
+        return service.save(reparacion, token);
     }
 
-    @PutMapping("/{otId}/finalizar")
-    public ResponseEntity<Reparacion> finalizar(@PathVariable Long otId) {
-        log.info("PUT /reparaciones/{}/finalizar", otId);
-        return ResponseEntity.ok(service.finalizar(otId));
+    @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
+    @PutMapping("/{id}")
+    public Reparacion update(
+            @PathVariable Long id,
+            @Valid @RequestBody Reparacion reparacion,
+            @RequestHeader("Authorization") String token) {
+
+        log.info("PUT api/v1/reparaciones/{}", id);
+        return service.update(id, reparacion, token);
     }
 
-    @GetMapping("/ot/{otId}")
-    public ResponseEntity<Reparacion> buscarPorOt(@PathVariable Long otId) {
-        log.info("GET /reparaciones/ot/{}", otId);
-        Reparacion r = service.buscarPorOt(otId);
-        return ResponseEntity.ok(r);
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.warn("DELETE api/v1/reparaciones/{}", id);
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

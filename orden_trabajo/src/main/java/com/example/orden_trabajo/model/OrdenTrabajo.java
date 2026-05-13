@@ -53,13 +53,4 @@ public class OrdenTrabajo {
     private String estadoPago;
 
 
-
-
-
-
-
-
-
-
-
 }

@@ -1,7 +1,6 @@
 package com.example.pago.cliente;
 
 import com.example.pago.model.Finanzas;
-import com.example.pago.model.Orden_Trabajo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,10 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
-
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @Component
