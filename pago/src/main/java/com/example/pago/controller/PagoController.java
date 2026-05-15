@@ -1,7 +1,6 @@
 package com.example.pago.controller;
 
-import com.example.pago.cliente.FinanzasClient;
-import com.example.pago.cliente.OrdenTrabajoClient;
+import com.example.pago.client.OrdenTrabajoClient;
 import com.example.pago.exception.PagoNotFoundException;
 import com.example.pago.model.Pago;
 import com.example.pago.service.PagoService;
@@ -23,9 +22,7 @@ public class PagoController {
     @Autowired
     private PagoService pagoService;
     @Autowired
-    private FinanzasClient finanzasClient;
-    @Autowired
-    private OrdenTrabajoClient  ordenTrabajoClient;
+    private OrdenTrabajoClient ordenTrabajoClient;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'TECNICO')")
@@ -70,10 +67,7 @@ public class PagoController {
             @Valid @RequestBody Pago pago,
             @RequestHeader("Authorization") String token) {
         log.info("POST /api/v1/pagos - Registrando pago para OT {}", pago.getOtId());
-        finanzasClient.obtenerFinanza(pago.getFinanzaId(), token).block();
-
-        ordenTrabajoClient.obtenerOt(pago.getOtId(),token).block();
-
+        ordenTrabajoClient.obtenerOt(pago.getOtId(), token).block();
         Pago p = pagoService.registrar(pago, token);
         log.info("Pago registrado con id {}", p.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(p);

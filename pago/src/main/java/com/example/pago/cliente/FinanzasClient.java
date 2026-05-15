@@ -16,17 +16,26 @@ import reactor.core.publisher.Mono;
 public class FinanzasClient {
 
     @Autowired
-    @Qualifier("FinanzasClient")
+    @Qualifier("FinanzasWebClient")
     private WebClient webClient;
 
-    public Mono<Finanzas> obtenerFinanza    (Long id, String token) {
-        return webClient.get()
-                .uri("/{id}", id)
+    public Mono<Void> registrarMovimiento(String token, Long otId, Double monto, String detalle) {
+        log.info("Notificando a finanzas - OT: {}, monto: {}", otId, monto);
+        Finanzas finanzas = new Finanzas();
+        finanzas.setCategoria("ingreso");
+        finanzas.setDetalle(detalle);
+        finanzas.setTotal(monto);
+        finanzas.setOtId(otId);
+        finanzas.setMedioPago("sistema");
+
+        return webClient.post()
+                .uri("")
                 .header("Authorization", token)
+                .bodyValue(finanzas)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, response ->
                         Mono.error(new ResponseStatusException(
-                                HttpStatus.NOT_FOUND, "Finanza no encontrada")))
-                .bodyToMono(Finanzas.class);
+                                HttpStatus.BAD_REQUEST, "Error al registrar en finanzas")))
+                .bodyToMono(Void.class);
     }
 }

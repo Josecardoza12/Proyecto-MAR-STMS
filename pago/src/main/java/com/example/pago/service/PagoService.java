@@ -43,17 +43,16 @@ public class PagoService {
     public Pago registrar(Pago pago, String token) {
         log.info("Registrando pago para OT {}", pago.getOtId());
         pago.setFecha(LocalDate.now());
-        pago.setEstado("pagado");
+        pago.setEstado("pendiente");
         Pago saved = pagoRepository.save(pago);
         log.info("Pago registrado con id {}", saved.getId());
 
-        // Notificar a finanzas
         finanzasClient.registrarMovimiento(
                 token,
                 saved.getOtId(),
                 saved.getMonto(),
                 "Pago OT #" + saved.getOtId() + " - " + saved.getFormaPago()
-        );
+        ).subscribe();
 
         return saved;
     }

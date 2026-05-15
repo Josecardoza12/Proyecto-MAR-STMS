@@ -24,10 +24,6 @@ public class Pago {
     @Column(nullable = false)
     private Long otId;
 
-    @NotNull(message = "El ID de la OT es obligatorio")
-    @Column(nullable = false)
-    private Long finanzaId;
-
     private LocalDate fecha;
 
     @NotNull(message = "El monto es obligatorio")

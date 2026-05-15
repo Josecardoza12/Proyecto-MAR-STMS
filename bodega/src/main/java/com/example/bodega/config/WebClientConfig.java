@@ -6,9 +6,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class WebClientConfig {
-    @Bean
 
-    public WebClient webClient(){
+    @Bean("Orden_TrabajoClient")
+    public WebClient webClient() {
         return WebClient.builder()
                 .baseUrl("http://localhost:8084/api/v1/ot")
                 .build();
